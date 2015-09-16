@@ -33,7 +33,7 @@ describe('Scores', function() {
 describe("Turn", function() {
     it("assigns a random number for computer choice", function() {
         // var grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        expect(computerPick()).to.equal(1||2||3||4||5||6||7||8||9);
+        expect(typeof(computerPick())).to.equal("number");
         expect(grids.length).to.equal(8);
     });
 });

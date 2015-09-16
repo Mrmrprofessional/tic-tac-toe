@@ -9,7 +9,7 @@ function Scores(row1, row2, row3, col1, col2, col3, diag1, diag2) {
   this.diag2 = diag2;
 }
 
-Scores.prototype.addScore = function(gridId) {
+Scores.prototype.addScores = function(gridId) {
     // gridId should pass in the span id of the selected grid
     // add to scores based on gridId
     switch (gridId) {
@@ -51,28 +51,48 @@ Scores.prototype.findWinner = function() {
     }
 }
 
+// create new player and computer player
+var playerOneScores = new Scores(0,0,0,0,0,0,0,0);
 
+
+// determines who goes first
+// if(Math.floor((Math.random() * 2) + 1) == 0) {
+//     return "PlayerOne";
+// } else{
+//     return "Computer";
+// }
+
+
+
+// chooses grid for computer
 var grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 var computerPick = function(){
     do {
         var choice = Math.floor((Math.random() * 9) + 1);
     }
-    while(grids.indexOf(choice) === -1)
+    while(grids.indexOf(choice) === -1);
     grids.splice(grids.indexOf(choice), 1);
-
-    return choice;
+    computerScores.addScores(choice);
 }
-// var player1 = new Scores(0,0,0,0,0,0,0,0);
-//
-// player1.addScore(5);
-// player1.findWinner();
 
-// function Players(playerOne, computer) {
-//     this.playerOne = playerOne;
-//     this.computer = computer;
-// }
+
+// PlayerOneScore.addScores(gridId);
+//     //determine who plays first
 //
-// Players.prototype.something = function() {
-//     // something
+//     //
+//     computerPick();
 // }
+
+$(document).ready(function(){
+    $("button").click(function(){
+        event.preventDefault();
+        $(this).prop("disabled", true);
+        $(this).text("O");
+        // refers to id of button clicked
+        var choice = parseInt($(this).attr('id'));
+        playerOneScores.addScores(choice);
+        console.log(choice);
+        grids.splice(grids.indexOf(choice), 1);
+        console.log(playerOneScores);
+    });
+});
