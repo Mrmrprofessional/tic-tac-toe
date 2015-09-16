@@ -51,11 +51,28 @@ Scores.prototype.findWinner = function() {
     }
 }
 
-function Players(playerOne, computer) {
-    this.playerOne = playerOne;
-    this.computer = computer;
-}
 
-Players.prototype.something = function() {
-    // something
+var grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+var computerPick = function(){
+    do {
+        var choice = Math.floor((Math.random() * 9) + 1);
+    }
+    while(grids.indexOf(choice) === -1)
+    grids.splice(grids.indexOf(choice), 1);
+
+    return choice;
 }
+// var player1 = new Scores(0,0,0,0,0,0,0,0);
+//
+// player1.addScore(5);
+// player1.findWinner();
+
+// function Players(playerOne, computer) {
+//     this.playerOne = playerOne;
+//     this.computer = computer;
+// }
+//
+// Players.prototype.something = function() {
+//     // something
+// }
