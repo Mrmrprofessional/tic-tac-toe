@@ -61,12 +61,21 @@ var playerWins = 0;
 var computerWins = 0;
 // keeps track of available spots to move
 var grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
+var icon = "<img width='100%' width='*' src='img/1.jpg'/>";
 $(document).ready(function(){
+    $("img").click(function(){
+        icon = "<img width='100%' width='*' src='" + $(this).attr('src') + "'/>";
+        $(this).removeClass('icon');
+        $("img.icon").effect("explode");
+        var iconName = $(this).attr("alt");
+        $("h3.choice").text("You Selected " + iconName);
+    });
+
     $("button").click(function(){
         event.preventDefault();
         $(this).prop("disabled", true);
-        $(this).text("O");
+        $(this).text("");
+        $(this).prepend(icon);
         // refers to id of button clicked
         var playerChoice = parseInt($(this).attr('id'));
         playerOneScores.addScores(playerChoice);
@@ -101,7 +110,7 @@ $(document).ready(function(){
             $("button#" + parseInt(computerChoice)).text("");
             $("button#" + parseInt(computerChoice)).prepend("<img width='100%' height='*' src='img/computer.jpg'/>");
             if(computerScores.findWinner() == true){
-                alert("You lost!");
+                alert("You got rekt!");
                 $("button").prop("disabled", false);
                 $("button").text("_");
                 playerOneScores = new Scores(0,0,0,0,0,0,0,0);
