@@ -3,6 +3,8 @@ var playerOneScores = new Scores(0,0,0,0,0,0,0,0);
 var computerScores = new Scores(0,0,0,0,0,0,0,0);
 var playerWins = 0;
 var computerWins = 0;
+var computerChoice;
+var difficultySelection;
 console.log(playerOneScores.row1);
 
 // keeps track of user scores
@@ -49,9 +51,14 @@ Scores.prototype.addScores = function(gridId) {
             break;
     }
 }
+Scores.prototype.computerEasy = function() {
+    do {
+            computerChoice = Math.floor((Math.random() * 9) + 1);
+        }while(grids.indexOf(computerChoice) === -1);
+    return computerChoice;
+}
 
 Scores.prototype.computerHard = function() {
-    var computerChoice;
     if( playerOneScores.row1 == 2){
         if(grids.indexOf(1) !== -1){
             computerChoice = 1;
@@ -156,6 +163,12 @@ $(document).ready(function(){
         $("img").unbind('click');
     });
 
+    $("button.difficulty").click(function(){
+        event.preventDefault();
+        difficultySelection = $(this).attr('id');
+        console.log(difficultySelection);
+    });
+
     $(".game button").click(function(){
         event.preventDefault();
         $(this).prop("disabled", true);
@@ -184,7 +197,11 @@ $(document).ready(function(){
           grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         } else {
             // computer choice
-            var computerChoice = computerScores.computerHard();
+            if (difficultySelection == "hard") {
+                computerChoice = computerScores.computerHard();
+            } else {
+                computerChoice = computerScores.computerEasy();
+            }
             grids.splice(grids.indexOf(computerChoice), 1);
             computerScores.addScores(computerChoice);
 
