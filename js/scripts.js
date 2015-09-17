@@ -57,7 +57,8 @@ Scores.prototype.findWinner = function() {
 // create new player and computer player
 var playerOneScores = new Scores(0,0,0,0,0,0,0,0);
 var computerScores = new Scores(0,0,0,0,0,0,0,0);
-
+var playerWins = 0;
+var computerWins = 0;
 // keeps track of available spots to move
 var grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -72,7 +73,21 @@ $(document).ready(function(){
         grids.splice(grids.indexOf(playerChoice), 1);
          if(playerOneScores.findWinner() == true) {
             alert("You won!");
-            location.reload();
+            $("button").prop("disabled", false);
+            $("button").text("_");
+            playerOneScores = new Scores(0,0,0,0,0,0,0,0);
+            computerScores = new Scores(0,0,0,0,0,0,0,0);
+            grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            playerWins += 1;
+            $("span#player").text(playerWins);
+            // location.reload();
+        } else if (grids.length == 0){
+          alert("Its a draw!");
+          $("button").prop("disabled", false);
+          $("button").text("_");
+          playerOneScores = new Scores(0,0,0,0,0,0,0,0);
+          computerScores = new Scores(0,0,0,0,0,0,0,0);
+          grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         } else {
             // computer choice
             do {
@@ -83,10 +98,17 @@ $(document).ready(function(){
             computerScores.addScores(computerChoice);
 
             $("button#" + parseInt(computerChoice)).prop("disabled", true);
-            $("button#" + parseInt(computerChoice)).text("X");
+            $("button#" + parseInt(computerChoice)).text("");
+            $("button#" + parseInt(computerChoice)).prepend("<img width='100%' height='*' src='img/computer.jpg'/>");
             if(computerScores.findWinner() == true){
                 alert("You lost!");
-                location.reload();
+                $("button").prop("disabled", false);
+                $("button").text("_");
+                playerOneScores = new Scores(0,0,0,0,0,0,0,0);
+                computerScores = new Scores(0,0,0,0,0,0,0,0);
+                grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                computerWins += 1;
+                $("span#computer").text(computerWins);
             }
         }
     });
