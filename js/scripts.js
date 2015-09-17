@@ -1,3 +1,10 @@
+// create new player and computer player
+var playerOneScores = new Scores(0,0,0,0,0,0,0,0);
+var computerScores = new Scores(0,0,0,0,0,0,0,0);
+var playerWins = 0;
+var computerWins = 0;
+console.log(playerOneScores.row1);
+
 // keeps track of user scores
 function Scores(row1, row2, row3, col1, col2, col3, diag1, diag2) {
   this.row1 = row1;
@@ -43,6 +50,88 @@ Scores.prototype.addScores = function(gridId) {
     }
 }
 
+Scores.prototype.computerHard = function() {
+    var computerChoice;
+    if( playerOneScores.row1 == 2){
+        if(grids.indexOf(1) !== -1){
+            computerChoice = 1;
+        }else if (grids.indexOf(2) !== -1){
+            computerChoice = 2;
+        }else if (grids.indexOf(3) !== -1){
+            computerChoice = 3;
+        }
+    }
+    if ( playerOneScores.row2 == 2){
+        if(grids.indexOf(4) !== -1){
+            computerChoice = 4;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(6) !== -1){
+            computerChoice = 6;
+        }
+    }
+    if ( playerOneScores.row3 == 2){
+        if(grids.indexOf(7) !== -1){
+            computerChoice = 7;
+        }else if (grids.indexOf(8) !== -1){
+            computerChoice = 8;
+        }else if (grids.indexOf(9) !== -1){
+            computerChoice = 9;
+        }
+    }
+    if ( playerOneScores.col1 == 2){
+        if(grids.indexOf(1) !== -1){
+            computerChoice = 1;
+        }else if (grids.indexOf(4) !== -1){
+            computerChoice = 4;
+        }else if (grids.indexOf(7) !== -1){
+            computerChoice = 7;
+        }
+    }
+    if ( playerOneScores.col2 == 2){
+        if(grids.indexOf(2) !== -1){
+            computerChoice = 2;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(8) !== -1){
+            computerChoice = 8;
+        }
+    }
+    if ( playerOneScores.col3 == 2){
+        if(grids.indexOf(3) !== -1){
+            computerChoice = 3;
+        }else if (grids.indexOf(6) !== -1){
+            computerChoice = 6;
+        }else if (grids.indexOf(9) !== -1){
+            computerChoice = 9;
+        }
+    }
+    if ( playerOneScores.diag1 == 2){
+        if(grids.indexOf(1) !== -1){
+            computerChoice = 1;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(9) !== -1){
+            computerChoice = 9;
+        }
+    }
+    if ( playerOneScores.diag2 == 2){
+        if(grids.indexOf(3) !== -1){
+            computerChoice = 3;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(7) !== -1){
+            computerChoice = 7;
+        }
+    }
+    if(computerChoice == undefined){
+        do {
+            computerChoice = Math.floor((Math.random() * 9) + 1);
+        }while(grids.indexOf(computerChoice) === -1);
+    }
+    return computerChoice;
+}
+
 // determines winner by totalling scores of columns, rows, or diagonals
 Scores.prototype.findWinner = function() {
     if( this.row1 === 3 || this.row2 === 3 || this.row3 === 3 ||
@@ -54,24 +143,20 @@ Scores.prototype.findWinner = function() {
     }
 }
 
-// create new player and computer player
-var playerOneScores = new Scores(0,0,0,0,0,0,0,0);
-var computerScores = new Scores(0,0,0,0,0,0,0,0);
-var playerWins = 0;
-var computerWins = 0;
 // keeps track of available spots to move
 var grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 var icon = "<img width='100%' width='*' src='img/1.jpg'/>";
 $(document).ready(function(){
-    $("img").click(function(){
+    $("img.icon").click(function(){
         icon = "<img width='100%' width='*' src='" + $(this).attr('src') + "'/>";
         $(this).removeClass('icon');
         $("img.icon").effect("explode");
         var iconName = $(this).attr("alt");
         $("h3.choice").text("You Selected " + iconName);
+        $("img").unbind('click');
     });
 
-    $("button").click(function(){
+    $(".game button").click(function(){
         event.preventDefault();
         $(this).prop("disabled", true);
         $(this).text("");
@@ -82,8 +167,8 @@ $(document).ready(function(){
         grids.splice(grids.indexOf(playerChoice), 1);
          if(playerOneScores.findWinner() == true) {
             alert("You won!");
-            $("button").prop("disabled", false);
-            $("button").text("_");
+            $(".game button").prop("disabled", false);
+            $(".game button").text("_");
             playerOneScores = new Scores(0,0,0,0,0,0,0,0);
             computerScores = new Scores(0,0,0,0,0,0,0,0);
             grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -92,27 +177,24 @@ $(document).ready(function(){
             // location.reload();
         } else if (grids.length == 0){
           alert("Its a draw!");
-          $("button").prop("disabled", false);
-          $("button").text("_");
+          $(".game button").prop("disabled", false);
+          $(".game button").text("_");
           playerOneScores = new Scores(0,0,0,0,0,0,0,0);
           computerScores = new Scores(0,0,0,0,0,0,0,0);
           grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         } else {
             // computer choice
-            do {
-                var computerChoice = Math.floor((Math.random() * 9) + 1);
-            }
-            while(grids.indexOf(computerChoice) === -1);
+            var computerChoice = computerScores.computerHard();
             grids.splice(grids.indexOf(computerChoice), 1);
             computerScores.addScores(computerChoice);
 
-            $("button#" + parseInt(computerChoice)).prop("disabled", true);
-            $("button#" + parseInt(computerChoice)).text("");
-            $("button#" + parseInt(computerChoice)).prepend("<img width='100%' height='*' src='img/computer.jpg'/>");
+            $(".game button#" + computerChoice).prop("disabled", true);
+            $(".game button#" + computerChoice).text("");
+            $(".game button#" + computerChoice).prepend("<img width='100%' height='*' src='img/computer.jpg'/>");
             if(computerScores.findWinner() == true){
                 alert("You got rekt!");
-                $("button").prop("disabled", false);
-                $("button").text("_");
+                $(".game button").prop("disabled", false);
+                $(".game button").text("_");
                 playerOneScores = new Scores(0,0,0,0,0,0,0,0);
                 computerScores = new Scores(0,0,0,0,0,0,0,0);
                 grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
