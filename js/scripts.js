@@ -18,6 +18,7 @@ function Scores(row1, row2, row3, col1, col2, col3, diag1, diag2) {
   this.diag2 = diag2;
 }
 
+
 // adds scores to score object based on their location in the grid
 Scores.prototype.addScores = function(gridId) {
     switch (gridId) {
@@ -293,6 +294,13 @@ Scores.prototype.computerMaster = function() {
     return computerChoice;
 }
 
+Scores.prototype.computerTroll = function() {
+    do {
+            computerChoice = Math.floor((Math.random() * 9) + 1);
+        }while(grids.indexOf(computerChoice) === -1);
+    return computerChoice;
+}
+
 // determines winner by totalling scores of columns, rows, or diagonals
 Scores.prototype.findWinner = function() {
     if( this.row1 === 3 || this.row2 === 3 || this.row3 === 3 ||
@@ -313,14 +321,13 @@ $(document).ready(function(){
         $(this).removeClass('icon');
         $("img.icon").effect("explode");
         var iconName = $(this).attr("alt");
-        $("h3.choice").text("You Selected " + iconName);
+        $("h4.choice").text("You Selected " + iconName + "!");
         $("img").unbind('click');
     });
 
     $("button.difficulty").click(function(){
         event.preventDefault();
         difficultySelection = $(this).attr('id');
-        console.log(difficultySelection);
     });
 
     $(".game button").click(function(){
@@ -332,7 +339,21 @@ $(document).ready(function(){
         var playerChoice = parseInt($(this).attr('id'));
         playerOneScores.addScores(playerChoice);
         grids.splice(grids.indexOf(playerChoice), 1);
-         if(playerOneScores.findWinner() == true) {
+        if(playerOneScores.findWinner() == true && difficultySelection == "troll"){
+            $(".game button").prop("disabled", true);
+            $(".game button").text("");
+            $(".game button").prepend("<img width='100%' height='*' src='img/computer.jpg'/>");
+            $(".game button").addClass('animated infinite flip')
+            alert("You lose!...loser.");
+            $(".game button").removeClass('animated infinite flip')
+            $(".game button").prop("disabled", false);
+            $(".game button").text("_");
+            playerOneScores = new Scores(0,0,0,0,0,0,0,0);
+            computerScores = new Scores(0,0,0,0,0,0,0,0);
+            grids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            computerWins += 1;
+            $("span#computer").text(computerWins);
+        }else if(playerOneScores.findWinner() == true) {
             alert("You won!");
             $(".game button").prop("disabled", false);
             $(".game button").text("_");
@@ -353,7 +374,7 @@ $(document).ready(function(){
             // computer choice
             if (difficultySelection == "hard") {
                 computerChoice = computerScores.computerHard();
-            } else if (difficultySelection == "master"){
+            } else if (difficultySelection == "master" || difficultySelection =="troll"){
                 computerChoice= computerScores.computerMaster();
             } else {
                 computerChoice = computerScores.computerEasy();
