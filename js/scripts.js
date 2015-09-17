@@ -3,7 +3,6 @@ var playerOneScores = new Scores(0,0,0,0,0,0,0,0);
 var computerScores = new Scores(0,0,0,0,0,0,0,0);
 var playerWins = 0;
 var computerWins = 0;
-var computerChoice;
 var difficultySelection;
 console.log(playerOneScores.row1);
 
@@ -59,6 +58,7 @@ Scores.prototype.computerEasy = function() {
 }
 
 Scores.prototype.computerHard = function() {
+    var computerChoice;
     if( playerOneScores.row1 == 2){
         if(grids.indexOf(1) !== -1){
             computerChoice = 1;
@@ -139,6 +139,160 @@ Scores.prototype.computerHard = function() {
     return computerChoice;
 }
 
+Scores.prototype.computerMaster = function() {
+    var computerChoice;
+    if( playerOneScores.row1 == 2){
+        if(grids.indexOf(1) !== -1){
+            computerChoice = 1;
+        }else if (grids.indexOf(2) !== -1){
+            computerChoice = 2;
+        }else if (grids.indexOf(3) !== -1){
+            computerChoice = 3;
+        }
+    }
+    if ( playerOneScores.row2 == 2){
+        if(grids.indexOf(4) !== -1){
+            computerChoice = 4;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(6) !== -1){
+            computerChoice = 6;
+        }
+    }
+    if ( playerOneScores.row3 == 2){
+        if(grids.indexOf(7) !== -1){
+            computerChoice = 7;
+        }else if (grids.indexOf(8) !== -1){
+            computerChoice = 8;
+        }else if (grids.indexOf(9) !== -1){
+            computerChoice = 9;
+        }
+    }
+    if ( playerOneScores.col1 == 2){
+        if(grids.indexOf(1) !== -1){
+            computerChoice = 1;
+        }else if (grids.indexOf(4) !== -1){
+            computerChoice = 4;
+        }else if (grids.indexOf(7) !== -1){
+            computerChoice = 7;
+        }
+    }
+    if ( playerOneScores.col2 == 2){
+        if(grids.indexOf(2) !== -1){
+            computerChoice = 2;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(8) !== -1){
+            computerChoice = 8;
+        }
+    }
+    if ( playerOneScores.col3 == 2){
+        if(grids.indexOf(3) !== -1){
+            computerChoice = 3;
+        }else if (grids.indexOf(6) !== -1){
+            computerChoice = 6;
+        }else if (grids.indexOf(9) !== -1){
+            computerChoice = 9;
+        }
+    }
+    if ( playerOneScores.diag1 == 2){
+        if(grids.indexOf(1) !== -1){
+            computerChoice = 1;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(9) !== -1){
+            computerChoice = 9;
+        }
+    }
+    if ( playerOneScores.diag2 == 2){
+        if(grids.indexOf(3) !== -1){
+            computerChoice = 3;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(7) !== -1){
+            computerChoice = 7;
+        }
+    }
+    if( computerScores.row1 == 2){
+        if(grids.indexOf(1) !== -1){
+            computerChoice = 1;
+        }else if (grids.indexOf(2) !== -1){
+            computerChoice = 2;
+        }else if (grids.indexOf(3) !== -1){
+            computerChoice = 3;
+        }
+    }
+    if ( computerScores.row2 == 2){
+        if(grids.indexOf(4) !== -1){
+            computerChoice = 4;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(6) !== -1){
+            computerChoice = 6;
+        }
+    }
+    if ( computerScores.row3 == 2){
+        if(grids.indexOf(7) !== -1){
+            computerChoice = 7;
+        }else if (grids.indexOf(8) !== -1){
+            computerChoice = 8;
+        }else if (grids.indexOf(9) !== -1){
+            computerChoice = 9;
+        }
+    }
+    if ( computerScores.col1 == 2){
+        if(grids.indexOf(1) !== -1){
+            computerChoice = 1;
+        }else if (grids.indexOf(4) !== -1){
+            computerChoice = 4;
+        }else if (grids.indexOf(7) !== -1){
+            computerChoice = 7;
+        }
+    }
+    if ( computerScores.col2 == 2){
+        if(grids.indexOf(2) !== -1){
+            computerChoice = 2;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(8) !== -1){
+            computerChoice = 8;
+        }
+    }
+    if ( computerScores.col3 == 2){
+        if(grids.indexOf(3) !== -1){
+            computerChoice = 3;
+        }else if (grids.indexOf(6) !== -1){
+            computerChoice = 6;
+        }else if (grids.indexOf(9) !== -1){
+            computerChoice = 9;
+        }
+    }
+    if ( computerScores.diag1 == 2){
+        if(grids.indexOf(1) !== -1){
+            computerChoice = 1;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(9) !== -1){
+            computerChoice = 9;
+        }
+    }
+    if ( computerScores.diag2 == 2){
+        if(grids.indexOf(3) !== -1){
+            computerChoice = 3;
+        }else if (grids.indexOf(5) !== -1){
+            computerChoice = 5;
+        }else if (grids.indexOf(7) !== -1){
+            computerChoice = 7;
+        }
+    }
+    if(computerChoice == undefined){
+        do {
+            computerChoice = Math.floor((Math.random() * 9) + 1);
+        }while(grids.indexOf(computerChoice) === -1);
+    }
+    return computerChoice;
+}
+
 // determines winner by totalling scores of columns, rows, or diagonals
 Scores.prototype.findWinner = function() {
     if( this.row1 === 3 || this.row2 === 3 || this.row3 === 3 ||
@@ -199,10 +353,16 @@ $(document).ready(function(){
             // computer choice
             if (difficultySelection == "hard") {
                 computerChoice = computerScores.computerHard();
+            } else if (difficultySelection == "master"){
+                computerChoice= computerScores.computerMaster();
             } else {
                 computerChoice = computerScores.computerEasy();
             }
+            console.log(grids);
+            console.log(computerChoice);
             grids.splice(grids.indexOf(computerChoice), 1);
+            console.log(grids);
+
             computerScores.addScores(computerChoice);
 
             $(".game button#" + computerChoice).prop("disabled", true);
